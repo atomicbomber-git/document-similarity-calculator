@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Sastrawi\Stemmer\StemmerFactory;
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class ProcessController extends Controller
 {
@@ -18,16 +20,29 @@ class ProcessController extends Controller
 
         $stemmed_text = $this->stemmer->stem($data['raw_text']);
 
-        if (request()->ajax()) {
-            return [
-                'status' => 'success',
-                'data' => $stemmed_text
-            ];
-        }
+        return [
+            'status' => 'success',
+            'data' => $stemmed_text
+        ];
+    }
 
-        session()->flash('raw_text', $data['raw_text']);
-        session()->flash('stemmed', $stemmed_text);
+    public function clean()
+    {
+        $data = $this->validate(request(), [
+            'input' => 'required|string'
+        ]);
 
-        return back();
+        $process = new Process([
+            'python',
+            '../scripts/remove_conjunctions.py',
+            $data['input']
+        ]);
+
+        $process->run();
+
+        return [
+            'status' => 'success',
+            'data' => trim($process->getOutput())
+        ];
     }
 }

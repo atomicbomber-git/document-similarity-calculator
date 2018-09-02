@@ -10,7 +10,8 @@ class ProcessText extends Component
 
         this.state = {
             rawText: '',
-            stemmedText: ''
+            stemmedText: '',
+            cleanedText: ''
         }
 
         this.handleRawTextInputChange = this.handleRawTextInputChange.bind(this)
@@ -19,11 +20,23 @@ class ProcessText extends Component
             axios.post('/process/stem', { raw_text: this.state.rawText })
             .then(response => {
                 this.setState({ stemmedText: response.data.data })
+                this.cleanStemmedText(response.data.data)
             })
             .catch(error => {
                 this.setState({ stemmedText: '' })
                 console.log(error);
             })
+        }, 400)
+
+        this.cleanStemmedText = debounce((text) => {
+            axios.get('/process/clean', { params: { input: text } })
+                .then(response => {
+                    this.setState({ cleanedText: response.data.data })
+                })
+                .catch(error => {
+                    this.setState({ cleanedText: '' })
+                    console.log(error)
+                })
         }, 400)
     }
 
@@ -70,6 +83,25 @@ class ProcessText extends Component
                                 className='form-control'
                                 name="stemmed_text"
                                 value={this.state.stemmedText}
+                                ></textarea>
+                        </form>
+                    </div>
+                </div>
+
+                <div className="card mt-3">
+                    <div className="card-header">
+                        Hasil Tahap 2 (Pembersihan dari Kata Sambung):
+                    </div>
+
+                    <div className="card-body">
+                        <form>
+                            <label htmlFor="raw_text">
+                                Teks Setelah Melalui Proses Pembersihan dari Kata Sambung
+                            </label>
+                            <textarea readOnly
+                                className='form-control'
+                                name="cleaned_text"
+                                value={this.state.cleanedText}
                                 ></textarea>
                         </form>
                     </div>
