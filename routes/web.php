@@ -20,4 +20,5 @@ Route::prefix('/process')->group(function() {
     Route::view('/control_panel', 'process.control_panel')->name('process.control_panel');
     Route::post('/stem', 'ProcessController@stem')->name('process.stem');
     Route::get('/clean', 'ProcessController@clean')->name('process.clean');
+    Route::get('/freq_dist', 'ProcessController@frequencyDistribution', 'process.freq_dist');
 });

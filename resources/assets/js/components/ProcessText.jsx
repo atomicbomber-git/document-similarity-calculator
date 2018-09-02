@@ -11,7 +11,8 @@ class ProcessText extends Component
         this.state = {
             rawText: '',
             stemmedText: '',
-            cleanedText: ''
+            cleanedText: '',
+            freqDist: {}
         }
 
         this.handleRawTextInputChange = this.handleRawTextInputChange.bind(this)
@@ -32,12 +33,24 @@ class ProcessText extends Component
             axios.get('/process/clean', { params: { input: text } })
                 .then(response => {
                     this.setState({ cleanedText: response.data.data })
+                    this.calcFreqDist(response.data.data)
                 })
                 .catch(error => {
                     this.setState({ cleanedText: '' })
                     console.log(error)
                 })
         }, 400)
+
+        this.calcFreqDist = debounce((text) => {
+            axios.get('/process/freq_dist', { params: { input: text } })
+                .then(response => {
+                    this.setState({ freqDist: response.data.data })
+                })
+                .catch(error => {
+                    this.setState({ freqDist: {} })
+                    console.log(error)
+                })
+        }, 400);
     }
 
     handleRawTextInputChange(e)
@@ -103,6 +116,42 @@ class ProcessText extends Component
                                 name="cleaned_text"
                                 value={this.state.cleanedText}
                                 ></textarea>
+                        </form>
+                    </div>
+                </div>
+
+                <div className="card mt-3">
+                    <div className="card-header">
+                        Hasil Tahap 3 (Penghitungan <em>Frequency Distribution</em>):
+                    </div>
+
+                    <div className="card-body">
+                        <form>
+                            <label htmlFor="raw_text">
+                                Distribusi Token dalam Teks
+                            </label>
+                            
+                            <table className="table table-sm table-striped">
+                                <thead className="thead-dark">
+                                    <tr>
+                                        <th> # </th>
+                                        <th> Token </th>
+                                        <th> Jumlah </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {Object.keys(this.state.freqDist).map((key, index) => {
+                                        return (
+                                            <tr key={index}>
+                                                <td> {index + 1}. </td>
+                                                <td> {key} </td>
+                                                <td> {this.state.freqDist[key]} </td>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+
                         </form>
                     </div>
                 </div>
