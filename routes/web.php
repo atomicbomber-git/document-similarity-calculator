@@ -16,4 +16,11 @@ Route::get('/', function () {
 });
 
 Route::view('/main/control_panel', 'main.control_panel');
+
+Route::view('/process/control_panel', 'process.control_panel');
+
 Route::post('/process/stem', 'ProcessController@stem')->name('process.stem');
+Route::get('/process/test', function() {
+    $test = exec('pwd ..');
+    return $test;
+});

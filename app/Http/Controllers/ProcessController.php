@@ -18,6 +18,13 @@ class ProcessController extends Controller
 
         $stemmed_text = $this->stemmer->stem($data['raw_text']);
 
+        if (request()->ajax()) {
+            return [
+                'status' => 'success',
+                'data' => $stemmed_text
+            ];
+        }
+
         session()->flash('raw_text', $data['raw_text']);
         session()->flash('stemmed', $stemmed_text);
 
