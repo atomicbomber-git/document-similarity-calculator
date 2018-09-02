@@ -1,5 +1,6 @@
 <?php
-
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,6 +22,28 @@ Route::view('/process/control_panel', 'process.control_panel');
 
 Route::post('/process/stem', 'ProcessController@stem')->name('process.stem');
 Route::get('/process/test', function() {
-    $test = exec('pwd ..');
+    // $out = '';
+    // $status = '';
+    // $test = exec("python ../scripts/remove_conjunctions.py \"test test test\"", $out, $status);
+    // $test = exec("python");
+    $python_exe = "C:\Users\James Patrick Keegan\AppData\Local\Programs\Python\Python37-32\python.exe";
+    
+    $process = new Process([
+        $python_exe,
+        '../scripts/remove_conjunctions.py',
+        '"test test test"']
+    );
+    $process->run();
+
+    $test = [];
+    foreach ($process as $type => $data) {
+        $test[] = $data;
+    }
+    // if (!$process->isSuccessful()) {
+    //     return "fail";
+    // }
+
     return $test;
+
+    return $process->getOutput();
 });
