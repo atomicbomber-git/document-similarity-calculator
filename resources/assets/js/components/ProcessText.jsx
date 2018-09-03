@@ -9,19 +9,25 @@ class ProcessText extends Component
         super(props)
 
         this.state = {
-            rawText: '',
-            stemmedText: '',
-            cleanedText: '',
+            rawText: { first: '', second: '' },
+            stemmedText: { first: '', second: '' },
+            cleanedText: { first: '', second: '' },
+            termFrequency: {},
             freqDist: {}
         }
 
         this.handleRawTextInputChange = this.handleRawTextInputChange.bind(this)
+
+        this.handleFirstRawTextInputChange = this.handleFirstRawTextInputChange.bind(this)
+        this.handleSecondRawTextInputChange = this.handleSecondRawTextInputChange.bind(this)
         
-        this.sendRawText = debounce(() => {
-            axios.post('/process/stem', { raw_text: this.state.rawText })
+        this.sendRawText = debounce((type) => {
+            axios.post('/process/stem', { raw_text: this.state.rawText[type] })
             .then(response => {
-                this.setState({ stemmedText: response.data.data })
-                this.cleanStemmedText(response.data.data)
+                let temp = {}
+                temp[type] = response.data.data
+                this.setState({ stemmedText: { ...this.state.stemmedText, ...temp } })
+                this.cleanStemmedText(response.data.data, type)
             })
             .catch(error => {
                 this.setState({ stemmedText: '' })
@@ -29,11 +35,16 @@ class ProcessText extends Component
             })
         }, 400)
 
-        this.cleanStemmedText = debounce((text) => {
+        this.cleanStemmedText = debounce((text, type) => {
             axios.get('/process/clean', { params: { input: text } })
                 .then(response => {
-                    this.setState({ cleanedText: response.data.data })
-                    this.calcFreqDist(response.data.data)
+                    let temp = {}
+                    temp[type] = response.data.data
+                    this.setState({ cleanedText: { ...this.state.cleanedText, ...temp } })
+
+                    if (this.state.cleanedText.first && this.state.cleanedText.second) {
+                        this.calcTermFrequency(response.data.data)
+                    }
                 })
                 .catch(error => {
                     this.setState({ cleanedText: '' })
@@ -41,94 +52,188 @@ class ProcessText extends Component
                 })
         }, 400)
 
-        this.calcFreqDist = debounce((text) => {
-            axios.get('/process/freq_dist', { params: { input: text } })
+        this.calcTermFrequency = debounce((text) => {
+            axios.get('/process/term_freq', { params: { first: this.state.cleanedText.first, second: this.state.cleanedText.second } })
                 .then(response => {
-                    this.setState({ freqDist: response.data.data })
+                    this.setState({ termFrequency: response.data.data })
                 })
                 .catch(error => {
-                    this.setState({ freqDist: {} })
+                    this.setState({ termFrequency: {} })
                     console.log(error)
                 })
         }, 400);
     }
 
-    handleRawTextInputChange(e)
+    handleFirstRawTextInputChange(e) {
+        this.setState({ rawText: {...this.state.rawText, first: e.target.value } });
+    }
+
+    handleSecondRawTextInputChange(e) {
+        this.setState({ rawText: {...this.state.rawText, second: e.target.value } });
+    }
+
+    handleRawTextInputChange(value, type)
     {
-        this.setState({ rawText: e.target.value })
-        this.sendRawText()
+        let temp = {}
+        temp[type] = value
+        this.setState({ rawText: {...this.state.rawText, ...temp} })
+
+        this.sendRawText(type)
     }
 
     render() {
         return (
             <Fragment>
-                <div className="card">
-                    <div className="card-header">
-                        Proses Teks:
-                    </div>
+                <div className="row"> 
+                    <div className="col-md-6  mt-3">
+                        <div className="card text-white bg-primary">
+                            <div className="card-header">
+                                Proses Teks A:
+                            </div>
 
-                    <div className="card-body">
-                        <form>
-                            <label htmlFor="raw_text">
-                                Teks Mentah:
-                            </label>
-                            <textarea
-                                className='form-control'
-                                name="raw_text"
-                                value={this.state.rawText}
-                                onChange={this.handleRawTextInputChange}
-                                ></textarea>
-                        </form>
+                            <div className="card-body">
+                                <form>
+                                    <label htmlFor="raw_text">
+                                        Teks Mentah:
+                                    </label>
+                                    <textarea
+                                        rows="6"
+                                        className='form-control'
+                                        name="raw_text"
+                                        value={this.state.rawText.first}
+                                        onChange={(e) => { this.handleRawTextInputChange(e.target.value, 'first') }}
+                                        ></textarea>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-md-6  mt-3">
+                        <div className="card text-white bg-success">
+                            <div className="card-header">
+                                Proses Teks B:
+                            </div>
+
+                            <div className="card-body">
+                                <form>
+                                    <label htmlFor="raw_text">
+                                        Teks Mentah:
+                                    </label>
+                                    <textarea
+                                        rows="6"
+                                        className='form-control'
+                                        name="raw_text"
+                                        value={this.state.rawText.second}
+                                        onChange={(e) => { this.handleRawTextInputChange(e.target.value, 'second') }}
+                                        ></textarea>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col-md-6 mt-3">
+                        <div className="card text-white bg-primary">
+                            <div className="card-header">
+                                (A) Hasil Tahap 1 (<em> Stemming </em>):
+                            </div>
+
+                            <div className="card-body">
+                                <form>
+                                    <label htmlFor="stemmed_text_first">
+                                        Teks Setelah Melalui Proses <em> Stemming </em>
+                                    </label>
+                                    <textarea 
+                                        readOnly
+                                        rows="6"
+                                        className='form-control'
+                                        name="stemmed_text_first"
+                                        value={this.state.stemmedText.first}
+                                        ></textarea>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-md-6 mt-3">
+                        <div className="card text-white bg-success">
+                            <div className="card-header">
+                                (B) Hasil Tahap 1 (<em> Stemming </em>):
+                            </div>
+
+                            <div className="card-body">
+                                <form>
+                                    <label htmlFor="stemmed_text_second">
+                                        Teks Setelah Melalui Proses <em> Stemming </em>
+                                    </label>
+                                    <textarea
+                                        readOnly
+                                        rows="6"
+                                        className='form-control'
+                                        name="stemmed_text_second"
+                                        value={this.state.stemmedText.second}
+                                        ></textarea>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col-md-6 mt-3">
+                        <div className="card text-white bg-primary">
+                            <div className="card-header">
+                                (A) Hasil Tahap 2 (Pembersihan dari Kata Sambung):
+                            </div>
+
+                            <div className="card-body">
+                                <form>
+                                    <label htmlFor="cleaned_text_second">
+                                        Teks Setelah Melalui Proses Pembersihan dari Kata Sambung
+                                    </label>
+                                    <textarea
+                                        readOnly
+                                        rows="6"
+                                        className='form-control'
+                                        name="cleaned_text_second"
+                                        value={this.state.cleanedText.first}
+                                        ></textarea>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-md-6 mt-3">
+                        <div className="card text-white bg-success">
+                            <div className="card-header">
+                                (B) Hasil Tahap 2 (Pembersihan dari Kata Sambung):
+                            </div>
+
+                            <div className="card-body">
+                                <form>
+                                    <label htmlFor="cleaned_text_second">
+                                        Teks Setelah Melalui Proses Pembersihan dari Kata Sambung
+                                    </label>
+                                    <textarea
+                                        readOnly
+                                        rows="6"
+                                        className='form-control'
+                                        name="cleaned_text_second"
+                                        value={this.state.cleanedText.second}
+                                        ></textarea>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div className="card mt-3">
                     <div className="card-header">
-                        Hasil Tahap 1 (<em> Stemming </em>):
+                        Hasil Tahap 3 (Penghitungan <em>Term Frequency</em>):
                     </div>
 
                     <div className="card-body">
                         <form>
                             <label htmlFor="raw_text">
-                                Teks Setelah Melalui Proses <em> Stemming </em>
-                            </label>
-                            <textarea readOnly
-                                className='form-control'
-                                name="stemmed_text"
-                                value={this.state.stemmedText}
-                                ></textarea>
-                        </form>
-                    </div>
-                </div>
-
-                <div className="card mt-3">
-                    <div className="card-header">
-                        Hasil Tahap 2 (Pembersihan dari Kata Sambung):
-                    </div>
-
-                    <div className="card-body">
-                        <form>
-                            <label htmlFor="raw_text">
-                                Teks Setelah Melalui Proses Pembersihan dari Kata Sambung
-                            </label>
-                            <textarea readOnly
-                                className='form-control'
-                                name="cleaned_text"
-                                value={this.state.cleanedText}
-                                ></textarea>
-                        </form>
-                    </div>
-                </div>
-
-                <div className="card mt-3">
-                    <div className="card-header">
-                        Hasil Tahap 3 (Penghitungan <em>Frequency Distribution</em>):
-                    </div>
-
-                    <div className="card-body">
-                        <form>
-                            <label htmlFor="raw_text">
-                                Distribusi Token dalam Teks
+                                Frekuensi Token dalam Teks
                             </label>
                             
                             <table className="table table-sm table-striped">
@@ -136,16 +241,18 @@ class ProcessText extends Component
                                     <tr>
                                         <th> # </th>
                                         <th> Token </th>
-                                        <th> Jumlah </th>
+                                        <th> TF(A) </th>
+                                        <th> TF(B) </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {Object.keys(this.state.freqDist).map((key, index) => {
+                                    {Object.keys(this.state.termFrequency).map((token, index) => {
                                         return (
                                             <tr key={index}>
                                                 <td> {index + 1}. </td>
-                                                <td> {key} </td>
-                                                <td> {this.state.freqDist[key]} </td>
+                                                <td> {token} </td>
+                                                <td> {this.state.termFrequency[token]['a']} </td>
+                                                <td> {this.state.termFrequency[token]['b']} </td>
                                             </tr>
                                         )
                                     })}

@@ -21,4 +21,5 @@ Route::prefix('/process')->group(function() {
     Route::post('/stem', 'ProcessController@stem')->name('process.stem');
     Route::get('/clean', 'ProcessController@clean')->name('process.clean');
     Route::get('/freq_dist', 'ProcessController@frequencyDistribution', 'process.freq_dist');
+    Route::get('/term_freq', 'ProcessController@termFrequency', 'process.term_freq');
 });
