@@ -56,6 +56,7 @@ class ProcessText extends Component
             axios.get('/process/term_freq', { params: { first: this.state.cleanedText.first, second: this.state.cleanedText.second } })
                 .then(response => {
                     this.setState({ termFrequency: response.data.data })
+                    console.log(response.data.data)
                 })
                 .catch(error => {
                     this.setState({ termFrequency: {} })
@@ -79,6 +80,25 @@ class ProcessText extends Component
         this.setState({ rawText: {...this.state.rawText, ...temp} })
 
         this.sendRawText(type)
+    }
+
+    getSimilarity()
+    {
+        const {termFrequency} = this.state
+
+        let numerator = Object.keys(termFrequency).reduce((carry, key) => {
+            return carry + termFrequency[key].a * termFrequency[key].b
+        }, 0)
+
+        let len_a = Math.sqrt(Object.keys(termFrequency)
+            .map(key => termFrequency[key].a)
+            .reduce((carry, val) => { return carry + val * val }, 0))
+        
+        let len_b = Math.sqrt(Object.keys(termFrequency)
+            .map(key => termFrequency[key].b)
+            .reduce((carry, val) => { return carry + val * val }, 0))
+
+        return numerator / (len_a * len_b) * 100;
     }
 
     render() {
@@ -261,6 +281,12 @@ class ProcessText extends Component
 
                         </form>
                     </div>
+                </div>
+
+                <div>
+                    <h1>
+                        Tingkat Similaritas: {this.getSimilarity()} %
+                    </h1>
                 </div>
             </Fragment>
         )
