@@ -1,6 +1,6 @@
 
 import os
-os.environ['APPDATA'] = "C:\\Users\\James Patrick Keegan\\AppData\\Roaming"
+# os.environ['APPDATA'] = "."
 
 import nltk
 from nltk.tag import CRFTagger
