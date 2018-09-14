@@ -43,7 +43,7 @@ class ProcessController extends Controller
         ]);
 
         $process = new Process([
-            'python',
+            '../local_env/bin/python3',
             '../scripts/remove_conjunctions.py',
             $data['input']
         ]);
