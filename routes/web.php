@@ -23,3 +23,12 @@ Route::group(['prefix' => '/process', 'as' => 'process.'], function() {
     Route::get('/freq_dist', 'ProcessController@frequencyDistribution', 'freq_dist');
     Route::get('/term_freq', 'ProcessController@termFrequency', 'term_freq');
 });
+
+Route::group(['prefix' => '/thesis', 'as' => 'thesis.'], function() {
+    Route::get('/index', 'ThesisController@index')->name('index');
+    Route::get('/create', 'ThesisController@create')->name('create');
+    Route::get('/detail/{thesis}', 'ThesisController@detail')->name('detail');
+    Route::post('/update/{thesis}', 'ThesisController@update')->name('update');
+    Route::post('/store', 'ThesisController@store')->name('store');
+    Route::post('/delete/{thesis}', 'ThesisController@delete')->name('delete');
+});
