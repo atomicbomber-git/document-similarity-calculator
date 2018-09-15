@@ -6,7 +6,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-            <a class="nav-item nav-link {{ Route::is('process.*') ? 'active' : '' }}" href="#"> Dokumen Tunggal </a>
+            <a class="nav-item nav-link {{ Route::is('process.*') ? 'active' : '' }}" href="#"> Pasangan Dokumen </a>
             <a class="nav-item nav-link {{ Route::is('thesis.*') ? 'active' : '' }}" href="#"> Skripsi </a>
             </div>
         </div>
