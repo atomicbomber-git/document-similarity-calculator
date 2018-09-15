@@ -16,10 +16,10 @@ Route::get('/', function () {
 
 Route::redirect('/', '/process/control_panel');
 
-Route::prefix('/process')->group(function() {
-    Route::view('/control_panel', 'process.control_panel')->name('process.control_panel');
-    Route::post('/stem', 'ProcessController@stem')->name('process.stem');
-    Route::get('/clean', 'ProcessController@clean')->name('process.clean');
-    Route::get('/freq_dist', 'ProcessController@frequencyDistribution', 'process.freq_dist');
-    Route::get('/term_freq', 'ProcessController@termFrequency', 'process.term_freq');
+Route::group(['prefix' => '/process', 'as' => 'process.'], function() {
+    Route::view('/control_panel', 'process.control_panel')->name('control_panel');
+    Route::post('/stem', 'ProcessController@stem')->name('stem');
+    Route::get('/clean', 'ProcessController@clean')->name('clean');
+    Route::get('/freq_dist', 'ProcessController@frequencyDistribution', 'freq_dist');
+    Route::get('/term_freq', 'ProcessController@termFrequency', 'term_freq');
 });
