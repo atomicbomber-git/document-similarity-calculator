@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Thesis;
+use App\Processor;
 
 class ThesisController extends Controller
 {
+    public function __construct()
+    {
+        $this->processor = new Processor;
+    }
+
     public function index()
     {
         $theses = Thesis::select('id', 'title')
@@ -63,5 +69,27 @@ class ThesisController extends Controller
         $thesis->delete();
         return back()
             ->with('message.success', 'Data berhasil dihapus.');
+    }
+
+    public function compare(Thesis $thesis)
+    {
+        $other_theses = Thesis::query()
+            ->select('id', 'title', 'abstract', 'chapter_1', 'chapter_2')
+            ->where('id', '<>', $thesis->id)
+            ->limit(3)
+            ->get();
+
+        $similarities = $other_theses->map(function($other_thesis) use($thesis) {
+            return [
+                'id' => $other_thesis->id,
+                'title' => $this->processor->calculateSimilarity($thesis->title, $other_thesis->title),
+                'abstract' => $this->processor->calculateSimilarity($thesis->abstract, $other_thesis->abstract),
+                'chapter_1' => $this->processor->calculateSimilarity($thesis->chapter_1, $other_thesis->chapter_1),
+                'chapter_2' => $this->processor->calculateSimilarity($thesis->chapter_2, $other_thesis->chapter_2)
+            ];
+        });
+
+        $other_theses = $other_theses->keyBy('id');
+        return view('thesis.similarity', compact('thesis', 'similarities', 'other_theses'));
     }
 }

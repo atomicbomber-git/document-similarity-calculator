@@ -29,5 +29,23 @@ Route::group(['prefix' => '/thesis', 'as' => 'thesis.'], function() {
     Route::get('/detail/{thesis}', 'ThesisController@detail')->name('detail');
     Route::post('/update/{thesis}', 'ThesisController@update')->name('update');
     Route::post('/store', 'ThesisController@store')->name('store');
+    Route::get('/compare/{thesis}', 'ThesisController@compare')->name('compare');
     Route::post('/delete/{thesis}', 'ThesisController@delete')->name('delete');
+});
+
+use GuzzleHttp\Client;
+
+Route::get('/test', function() {
+    $client = new Client([
+        'base_uri' => env('TEXT_CLEANER_SERVICE_URL'),
+        'timeout' => 2.0
+    ]);
+
+    $input = 'Ayah pergi ke pasar sore ini';
+
+    $response = $client->request('GET', '/', [
+        'query' => ['input' => $input]
+    ]);
+
+    return json_decode($response->getBody())->result;
 });
