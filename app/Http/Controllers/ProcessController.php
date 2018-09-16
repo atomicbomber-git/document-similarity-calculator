@@ -80,21 +80,6 @@ class ProcessController extends Controller
         ];
     }
 
-    public function frequencyDistribution()
-    {
-        $data = $this->validate(request(), [
-            'input' => 'required|string'
-        ]);
-
-        $tokens = $this->tokenizer->tokenize($data['input']);
-        $freq_dist = new FreqDist($tokens);
-
-        return [
-            'status' => 'success',
-            'data' => $freq_dist->getKeyValues()
-        ];
-    }
-
     private function removePunctuations($array)
     {
         return collect($array)
