@@ -23,16 +23,48 @@ class ProcessController extends Controller
         ]);
     }
 
+    private function stemText($text)
+    {
+        return $this->stemmer->stem($text);
+    }
+
+    private function removeConjunctions($text)
+    {
+        $process = new Process([
+            '../local_env/bin/python3',
+            '../scripts/remove_conjunctions.py',
+            $text
+        ]);
+
+        $process->run();
+
+        return trim($process->getOutput());
+    }
+
+    private function calculateTermFrequency($text_a, $text_b)
+    {
+        $tokens_1 = $this->removePunctuations($this->tokenizer->tokenize(strtolower($text_a)));
+        $tokens_2 = $this->removePunctuations($this->tokenizer->tokenize(strtolower($text_b)));
+        $all_tokens = $tokens_1->merge($tokens_2);
+        
+        $freq_dist_1 = ( new FreqDist($tokens_1->toArray()) )->getKeyValues();
+        $freq_dist_2 = ( new FreqDist($tokens_2->toArray()) )->getKeyValues();
+
+        $term_frequency = $all_tokens->flatMap(function($token) use($freq_dist_1, $freq_dist_2) {
+            return [$token => ['a' => $freq_dist_1[$token] ?? 0, 'b' => $freq_dist_2[$token] ?? 0]];
+        });
+
+        return $term_frequency;
+    }
+
     public function stem() {
         $data = $this->validate(request(), [
             'raw_text' => 'required|string'
         ]);
 
-        $stemmed_text = $this->stemmer->stem($data['raw_text']);
-
         return [
             'status' => 'success',
-            'data' => $stemmed_text
+            'data' => $this->stemText($data['raw_text'])
         ];
     }
 
@@ -42,17 +74,9 @@ class ProcessController extends Controller
             'input' => 'required|string'
         ]);
 
-        $process = new Process([
-            '../local_env/bin/python3',
-            '../scripts/remove_conjunctions.py',
-            $data['input']
-        ]);
-
-        $process->run();
-
         return [
             'status' => 'success',
-            'data' => trim($process->getOutput())
+            'data' => $this->removeConjunctions($data['input'])
         ];
     }
 
@@ -86,20 +110,9 @@ class ProcessController extends Controller
             'second' => 'string|required'
         ]);
 
-        $tokens_1 = $this->removePunctuations($this->tokenizer->tokenize(strtolower($data['first'])));
-        $tokens_2 = $this->removePunctuations($this->tokenizer->tokenize(strtolower($data['second'])));
-        $all_tokens = $tokens_1->merge($tokens_2);
-        
-        $freq_dist_1 = ( new FreqDist($tokens_1->toArray()) )->getKeyValues();
-        $freq_dist_2 = ( new FreqDist($tokens_2->toArray()) )->getKeyValues();
-
-        $term_frequency = $all_tokens->flatMap(function($token) use($freq_dist_1, $freq_dist_2) {
-            return [$token => ['a' => $freq_dist_1[$token] ?? 0, 'b' => $freq_dist_2[$token] ?? 0]];
-        });
-
         return [
             'status' => 'success',
-            'data' => $term_frequency
+            'data' => $this->calculateTermFrequency($data['first'], $data['second'])
         ];
     }
 }
