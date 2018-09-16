@@ -10,6 +10,7 @@ use NlpTools\Documents\TrainingSet;
 use NlpTools\Documents\TokensDocument;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use GuzzleHttp\Client;
 
 class Processor
 {
@@ -18,6 +19,12 @@ class Processor
         $this->stemmer = (new StemmerFactory())->createStemmer();
         $this->tokenizer = new WhitespaceAndPunctuationTokenizer();
         $this->punctuations = collect(['.', ',', ':', '?', '!']);
+        
+        // A HTTP Client
+        $this->client = new Client([
+            'base_uri' => env('TEXT_CLEANER_SERVICE_URL'),
+            'timeout' => 2.0
+        ]);
     }
 
     public function stem($text)
@@ -27,15 +34,11 @@ class Processor
 
     public function removeConjunctions($text)
     {
-        $process = new Process([
-            '../local_env/bin/python3',
-            '../scripts/remove_conjunctions.py',
-            $text
+        $response = $this->client->request('GET', '/', [
+            'query' => ['input' => $text]
         ]);
 
-        $process->run();
-
-        return trim($process->getOutput());
+        return json_decode($response->getBody())->result;
     }
 
     public function calculateTermFrequency($text_a, $text_b)
@@ -62,11 +65,11 @@ class Processor
             });
     }
 
-    public function calculate_similarity($text_a, $text_b)
+    public function calculateSimilarity($text_a, $text_b)
     {
         $term_frequency = $this->calculateTermFrequency(
-            $this->removeConjunctions($this->stemText($text_a)),
-            $this->removeConjunctions($this->stemText($text_b))
+            $this->removeConjunctions($this->stem($text_a)),
+            $this->removeConjunctions($this->stem($text_b))
         );
 
         $numerator = $term_frequency->reduce(function($carry, $value) {
@@ -84,6 +87,10 @@ class Processor
             return $carry;
         }, 0));
 
-        return $numerator / ($len_a * $len_b);
+        if ($len_a * $len_b == 0) {
+            return 0;
+        }
+
+        return round($numerator / ($len_a * $len_b), 4) * 100;
     }
 }
