@@ -79,12 +79,19 @@ class ThesisController extends Controller
             ->get();
 
         $similarities = $other_theses->map(function($other_thesis) use($thesis) {
+
+            $title_s = $this->processor->calculateSimilarity($thesis->title, $other_thesis->title);
+            $abstract_s = $this->processor->calculateSimilarity($thesis->abstract, $other_thesis->abstract);
+            $chapter_1_s = $this->processor->calculateSimilarity($thesis->chapter_1, $other_thesis->chapter_1);
+            $chapter_2_s = $this->processor->calculateSimilarity($thesis->chapter_2, $other_thesis->chapter_2);
+
             return [
                 'id' => $other_thesis->id,
-                'title' => $this->processor->calculateSimilarity($thesis->title, $other_thesis->title),
-                'abstract' => $this->processor->calculateSimilarity($thesis->abstract, $other_thesis->abstract),
-                'chapter_1' => $this->processor->calculateSimilarity($thesis->chapter_1, $other_thesis->chapter_1),
-                'chapter_2' => $this->processor->calculateSimilarity($thesis->chapter_2, $other_thesis->chapter_2)
+                'title' => $title_s,
+                'abstract' => $abstract_s,
+                'chapter_1' => $chapter_1_s,
+                'chapter_2' => $chapter_2_s,
+                'average' => collect($title_s, $abstract_s, $chapter_1_s, $chapter_2_s)->average()
             ];
         });
 

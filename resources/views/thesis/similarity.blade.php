@@ -29,6 +29,7 @@
                         <th> N. Similaritas Abstrak </th>
                         <th> N. Similaritas Bab 1 </th>
                         <th> N. Similaritas Bab 2 </th>
+                        <th> Rata-Rata N. Similaritas </th>
                     </tr>
                 </thead>
 
@@ -41,6 +42,7 @@
                         <td> {{ $similarity['abstract'] }}% </td>
                         <td> {{ $similarity['chapter_1'] }}% </td>
                         <td> {{ $similarity['chapter_2'] }}% </td>
+                        <td> {{ $similarity['average'] }}% </td>
                     </tr>
                     @endforeach
                 </tbody>
