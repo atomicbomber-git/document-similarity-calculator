@@ -24,7 +24,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th> # </th>
-                        <th> Judul </th>
+                        <th style="width: 18rem"> Judul </th>
                         <th> N. Similaritas Judul </th>
                         <th> N. Similaritas Abstrak </th>
                         <th> N. Similaritas Bab 1 </th>
@@ -38,11 +38,21 @@
                     <tr>
                         <td> {{ $loop->iteration }}. </td>
                         <td> {{ $other_theses->get($similarity['id'])->title }} </td>
-                        <td> {{ $similarity['title'] }}% </td>
-                        <td> {{ $similarity['abstract'] }}% </td>
-                        <td> {{ $similarity['chapter_1'] }}% </td>
-                        <td> {{ $similarity['chapter_2'] }}% </td>
-                        <td> {{ $similarity['average'] }}% </td>
+                        <td class="{{ $similarity['title'] >= 40 ? 'table-danger' : '' }}">
+                            {{ $similarity['title'] }}%
+                        </td>
+                        <td class="{{ $similarity['abstract'] >= 40 ? 'table-danger' : '' }}">
+                            {{ $similarity['abstract'] }}%
+                        </td>
+                        <td class="{{ $similarity['chapter_1'] >= 40 ? 'table-danger' : '' }}">
+                            {{ $similarity['chapter_1'] }}%
+                        </td>
+                        <td class="{{ $similarity['chapter_2'] >= 40 ? 'table-danger' : '' }}">
+                            {{ $similarity['chapter_2'] }}%
+                        </td>
+                        <td class="{{ $similarity['average'] >= 40 ? 'table-danger' : '' }}">
+                            {{ $similarity['average'] }}%
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
