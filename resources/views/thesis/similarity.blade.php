@@ -37,7 +37,11 @@
                     @foreach ($similarities as $similarity)
                     <tr>
                         <td> {{ $loop->iteration }}. </td>
-                        <td> {{ $other_theses->get($similarity['id'])->title }} </td>
+                        <td>
+                            <a href="{{ route('thesis.detail', $thesis) }}">
+                                {{ $other_theses->get($similarity['id'])->title }}
+                            </a>
+                        </td>
                         <td class="{{ $similarity['title'] >= 40 ? 'table-danger' : '' }}">
                             {{ $similarity['title'] }}%
                         </td>
