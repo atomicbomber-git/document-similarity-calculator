@@ -90,7 +90,7 @@ class ThesisController extends Controller
                 'abstract' => $abstract_s,
                 'chapter_1' => $chapter_1_s,
                 'chapter_2' => $chapter_2_s,
-                'average' => collect($title_s, $abstract_s, $chapter_1_s, $chapter_2_s)->average()
+                'average' => collect([$title_s, $abstract_s, $chapter_1_s, $chapter_2_s])->average()
             ];
         });
 
