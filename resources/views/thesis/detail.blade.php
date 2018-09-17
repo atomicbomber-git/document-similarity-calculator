@@ -6,7 +6,9 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('thesis.index') }}"> Skripsi </a></li>
-            <li class="breadcrumb-item active"> Detail Skripsi </li>
+            <li class="breadcrumb-item active">
+                Detail Skripsi <strong> '{{ $thesis->title }}' </strong>
+            </li>
         </ol>
     </nav>
 
@@ -40,7 +42,7 @@
                                 placeholder="Teks abstrak skripsi"
                                 id='abstract' name='abstract'
                                 class='form-control {{ !$errors->has('abstract') ?: 'is-invalid' }}'
-                                col='30' row='6'
+                                col='30' row='6' style="height: 18rem"
                                 >{{ old('abstract', $thesis->abstract) }}</textarea>
                         
                             <div class='invalid-feedback'>
@@ -55,7 +57,7 @@
                                 placeholder="Teks isi bab I"
                                 id='chapter_1' name='chapter_1'
                                 class='form-control {{ !$errors->has('chapter_1') ?: 'is-invalid' }}'
-                                col='30' row='6'
+                                col='30' row='6' style="height: 18rem"
                                 >{{ old('chapter_1', $thesis->chapter_1) }}</textarea>
                         
                             <div class='invalid-feedback'>
@@ -70,7 +72,7 @@
                                 placeholder="Teks isi bab II"
                                 id='chapter_2' name='chapter_2'
                                 class='form-control {{ !$errors->has('chapter_2') ?: 'is-invalid' }}'
-                                col='30' row='6'
+                                col='30' row='6' style="height: 18rem"
                                 >{{ old('chapter_2', $thesis->chapter_2) }}</textarea>
                         
                             <div class='invalid-feedback'>
@@ -97,7 +99,7 @@
                 </div>
                 <div class="card-body">
                     <a href="{{ route('thesis.compare', $thesis) }}" class="btn btn-primary">
-                        Bandingkan dengan Skripsi Lain
+                        Bandingkan dengan Skripsi-Skripsi Lainnya
                     </a>
                 </div>
             </div>

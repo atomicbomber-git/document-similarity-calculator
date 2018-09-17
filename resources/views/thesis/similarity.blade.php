@@ -5,7 +5,11 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('thesis.index')  }}"> Skripsi </a></li>
-            <li class="breadcrumb-item"><a href="{{ route('thesis.detail', $thesis) }}"> Skripsi {{ $thesis->id }} </a></li>
+            <li class="breadcrumb-item">
+                <a href="{{ route('thesis.detail', $thesis) }}">
+                    Detail Skripsi <strong> '{{ $thesis->title }}' </strong>
+                </a>
+            </li>
             <li class="breadcrumb-item active" aria-current="page"> Perbandingan Similaritas </li>
         </ol>
     </nav>
