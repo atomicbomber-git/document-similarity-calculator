@@ -4,7 +4,7 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Thesis::class, function (Faker $faker) {
     return [
-        'title' => ucwords($faker->sentence),
+        'title' => ucwords($faker->sentence(10, TRUE)),
         'abstract' => $faker->realText(500),
         'chapter_1' => $faker->realText(1000),
         'chapter_2' => $faker->realText(1000)
