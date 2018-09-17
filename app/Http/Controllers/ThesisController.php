@@ -76,7 +76,6 @@ class ThesisController extends Controller
         $other_theses = Thesis::query()
             ->select('id', 'title', 'abstract', 'chapter_1', 'chapter_2')
             ->where('id', '<>', $thesis->id)
-            ->limit(3)
             ->get();
 
         $similarities = $other_theses->map(function($other_thesis) use($thesis) {
