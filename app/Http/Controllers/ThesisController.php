@@ -59,8 +59,7 @@ class ThesisController extends Controller
 
         $thesis->update($data);
 
-        return redirect()
-            ->route('thesis.index')
+        return back()
             ->with('message.success', 'Data berhasil diperbarui.');
     }
 
