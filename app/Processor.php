@@ -34,8 +34,8 @@ class Processor
 
     public function removeConjunctions($text)
     {
-        $response = $this->client->request('GET', '/', [
-            'query' => ['input' => $text]
+        $response = $this->client->request('POST', '/', [
+            'form_params' => ['input' => $text]
         ]);
 
         return json_decode($response->getBody())->result;
