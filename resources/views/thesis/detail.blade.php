@@ -79,6 +79,21 @@
                                 {{ $errors->first('chapter_2') }}
                             </div>
                         </div>
+
+                        <div class='form-group'>
+                            <label for='chapter_5'> Bab V: </label>
+                        
+                            <textarea
+                                placeholder="Teks isi bab V"
+                                id='chapter_5' name='chapter_5'
+                                class='form-control {{ !$errors->has('chapter_5') ?: 'is-invalid' }}'
+                                col='30' row='6' style="height: 18rem"
+                                >{{ old('chapter_5', $thesis->chapter_5) }}</textarea>
+                        
+                            <div class='invalid-feedback'>
+                                {{ $errors->first('chapter_5') }}
+                            </div>
+                        </div>
         
                         <div class="form-group text-right">
                             <button class="btn btn-primary">

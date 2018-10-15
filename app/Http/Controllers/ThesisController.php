@@ -33,7 +33,8 @@ class ThesisController extends Controller
             'title' => ['required', 'string'],
             'abstract' => ['nullable', 'string'],
             'chapter_1' => ['nullable', 'string'],
-            'chapter_2' => ['nullable', 'string']
+            'chapter_2' => ['nullable', 'string'],
+            'chapter_5' => ['nullable', 'string']
         ]);
 
         Thesis::create($data);
@@ -54,7 +55,8 @@ class ThesisController extends Controller
             'title' => ['required', 'string'],
             'abstract' => ['nullable', 'string'],
             'chapter_1' => ['nullable', 'string'],
-            'chapter_2' => ['nullable', 'string']
+            'chapter_2' => ['nullable', 'string'],
+            'chapter_5' => ['nullable', 'string']
         ]);
 
         $thesis->update($data);
@@ -73,7 +75,7 @@ class ThesisController extends Controller
     public function compare(Thesis $thesis)
     {
         $other_theses = Thesis::query()
-            ->select('id', 'title', 'abstract', 'chapter_1', 'chapter_2')
+            ->select('id', 'title', 'abstract', 'chapter_1', 'chapter_2', 'chapter_5')
             ->where('id', '<>', $thesis->id)
             ->get();
 
@@ -83,6 +85,7 @@ class ThesisController extends Controller
             $abstract_s = $this->processor->calculateSimilarity($thesis->abstract, $other_thesis->abstract);
             $chapter_1_s = $this->processor->calculateSimilarity($thesis->chapter_1, $other_thesis->chapter_1);
             $chapter_2_s = $this->processor->calculateSimilarity($thesis->chapter_2, $other_thesis->chapter_2);
+            $chapter_5_s = $this->processor->calculateSimilarity($thesis->chapter_5, $other_thesis->chapter_5);
 
             return [
                 'id' => $other_thesis->id,
@@ -90,7 +93,8 @@ class ThesisController extends Controller
                 'abstract' => $abstract_s,
                 'chapter_1' => $chapter_1_s,
                 'chapter_2' => $chapter_2_s,
-                'average' => collect([$title_s, $abstract_s, $chapter_1_s, $chapter_2_s])->average()
+                'chapter_5' => $chapter_5_s,
+                'average' => collect([$title_s, $abstract_s, $chapter_1_s, $chapter_2_s, $chapter_5_s])->average()
             ];
         });
 

@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Thesis extends Model
 {
     public $fillable = [
-        'title', 'abstract', 'chapter_1', 'chapter_2'
+        'title', 'abstract', 'chapter_1', 'chapter_2', 'chapter_5'
     ];
 }

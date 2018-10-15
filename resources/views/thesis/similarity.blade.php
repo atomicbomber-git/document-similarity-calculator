@@ -29,6 +29,7 @@
                         <th> N. Similaritas Abstrak </th>
                         <th> N. Similaritas Bab 1 </th>
                         <th> N. Similaritas Bab 2 </th>
+                        <th> N. Similaritas Bab 5 </th>
                         <th> Rata-Rata N. Similaritas </th>
                     </tr>
                 </thead>
@@ -53,6 +54,9 @@
                         </td>
                         <td class="{{ $similarity['chapter_2'] >= 40 ? 'table-danger' : '' }}">
                             {{ $similarity['chapter_2'] }}%
+                        </td>
+                        <td class="{{ $similarity['chapter_5'] >= 40 ? 'table-danger' : '' }}">
+                            {{ $similarity['chapter_5'] }}%
                         </td>
                         <td class="{{ $similarity['average'] >= 40 ? 'table-danger' : '' }}">
                             {{ $similarity['average'] }}%
