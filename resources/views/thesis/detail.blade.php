@@ -22,6 +22,87 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('thesis.update', $thesis) }}">
                         @csrf
+
+                        <div class='form-group'>
+                            <label for='student_name'> Nama Mahasiswa: </label>
+                        
+                            <input
+                                id='student_name' name='student_name' type='text'
+                                value='{{ old('student_name', $thesis->student_name) }}'
+                                class='form-control {{ !$errors->has('student_name') ?: 'is-invalid' }}'>
+                        
+                            <div class='invalid-feedback'>
+                                {{ $errors->first('student_name') }}
+                            </div>
+                        </div>
+
+                        <div class='form-group'>
+                            <label for='student_id'> NIM: </label>
+                        
+                            <input
+                                id='student_id' name='student_id' type='text'
+                                value='{{ old('student_id', $thesis->student_id) }}'
+                                class='form-control {{ !$errors->has('student_id') ?: 'is-invalid' }}'>
+                        
+                            <div class='invalid-feedback'>
+                                {{ $errors->first('student_id') }}
+                            </div>
+                        </div>
+
+                        <div class='form-group'>
+                            <label for='study_program'> Program Studi: </label>
+                        
+                            <input
+                                id='study_program' name='study_program' type='text'
+                                value='{{ old('study_program', $thesis->study_program) }}'
+                                class='form-control {{ !$errors->has('study_program') ?: 'is-invalid' }}'>
+                        
+                            <div class='invalid-feedback'>
+                                {{ $errors->first('study_program') }}
+                            </div>
+                        </div>
+
+                        <div class='form-group'>
+                            <label for='seminar_date'> Tanggal Sidang: </label>
+                        
+                            <input
+                                id='seminar_date' name='seminar_date' type='date'
+                                value='{{ old('seminar_date', $thesis->seminar_date) }}'
+                                class='form-control {{ !$errors->has('seminar_date') ?: 'is-invalid' }}'>
+                        
+                            <div class='invalid-feedback'>
+                                {{ $errors->first('seminar_date') }}
+                            </div>
+                        </div>
+
+                        <div class='form-group'>
+                            <label for='advisor_1_name'> Pembimbing I: </label>
+                        
+                            <input
+                                id='advisor_1_name' name='advisor_1_name' type='text'
+                                value='{{ old('advisor_1_name', $thesis->advisor_1_name) }}'
+                                class='form-control {{ !$errors->has('advisor_1_name') ?: 'is-invalid' }}'>
+                        
+                            <div class='invalid-feedback'>
+                                {{ $errors->first('advisor_1_name') }}
+                            </div>
+                        </div>
+
+                        <div class='form-group'>
+                            <label for='advisor_2_name'> Pembimbing II: </label>
+                        
+                            <input
+                                id='advisor_2_name' name='advisor_2_name' type='text'
+                                value='{{ old('advisor_2_name', $thesis->advisor_2_name) }}'
+                                class='form-control {{ !$errors->has('advisor_2_name') ?: 'is-invalid' }}'>
+                        
+                            <div class='invalid-feedback'>
+                                {{ $errors->first('advisor_2_name') }}
+                            </div>
+                        </div>
+
+                        <hr>
+
                         <div class='form-group'>
                             <label for='title'> Judul: </label>
                             <input

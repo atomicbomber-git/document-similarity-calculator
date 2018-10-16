@@ -34,7 +34,13 @@ class ThesisController extends Controller
             'abstract' => ['nullable', 'string'],
             'chapter_1' => ['nullable', 'string'],
             'chapter_2' => ['nullable', 'string'],
-            'chapter_5' => ['nullable', 'string']
+            'chapter_5' => ['nullable', 'string'],
+            'student_name' => ['nullable', 'string'],
+            'student_id' => ['nullable', 'string'],
+            'study_program' => ['nullable', 'string'],
+            'seminar_date' => ['nullable', 'string'],
+            'advisor_1_name' => ['nullable', 'string'],
+            'advisor_2_name' => ['nullable', 'string']
         ]);
 
         Thesis::create($data);
@@ -56,7 +62,13 @@ class ThesisController extends Controller
             'abstract' => ['nullable', 'string'],
             'chapter_1' => ['nullable', 'string'],
             'chapter_2' => ['nullable', 'string'],
-            'chapter_5' => ['nullable', 'string']
+            'chapter_5' => ['nullable', 'string'],
+            'student_name' => ['nullable', 'string'],
+            'student_id' => ['nullable', 'string'],
+            'study_program' => ['nullable', 'string'],
+            'seminar_date' => ['nullable', 'string'],
+            'advisor_1_name' => ['nullable', 'string'],
+            'advisor_2_name' => ['nullable', 'string']
         ]);
 
         $thesis->update($data);
