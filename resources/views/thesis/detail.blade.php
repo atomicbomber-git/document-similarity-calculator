@@ -76,6 +76,19 @@
                         </div>
 
                         <div class='form-group'>
+                            <label for='advisor_1_id'> NIK Pembimbing I: </label>
+                        
+                            <input
+                                id='advisor_1_id' name='advisor_1_id' type='text'
+                                value='{{ old('advisor_1_id', $thesis->advisor_1_id) }}'
+                                class='form-control {{ !$errors->has('advisor_1_id') ?: 'is-invalid' }}'>
+                        
+                            <div class='invalid-feedback'>
+                                {{ $errors->first('advisor_1_id') }}
+                            </div>
+                        </div>
+
+                        <div class='form-group'>
                             <label for='advisor_1_name'> Pembimbing I: </label>
                         
                             <input
@@ -85,6 +98,19 @@
                         
                             <div class='invalid-feedback'>
                                 {{ $errors->first('advisor_1_name') }}
+                            </div>
+                        </div>
+
+                        <div class='form-group'>
+                            <label for='advisor_2_id'> NIK Pembimbing II: </label>
+                        
+                            <input
+                                id='advisor_2_id' name='advisor_2_id' type='text'
+                                value='{{ old('advisor_2_id', $thesis->advisor_2_id) }}'
+                                class='form-control {{ !$errors->has('advisor_2_id') ?: 'is-invalid' }}'>
+                        
+                            <div class='invalid-feedback'>
+                                {{ $errors->first('advisor_2_id') }}
                             </div>
                         </div>
 

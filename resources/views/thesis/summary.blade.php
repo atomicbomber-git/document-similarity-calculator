@@ -9,7 +9,7 @@
     <style>@page { size: A4 }</style>
     <style>
         body {
-            font-size: 10pt;
+            font-size: 8pt;
         }
 
         table.bordered {
@@ -27,7 +27,7 @@
         }
 
         h2 {
-            font-size: 14pt;
+            font-size: 10pt;
         }
 
     </style>
@@ -213,7 +213,7 @@
             </tbody>
         </table>
 
-        <table style="margin-top: 4rem">
+        <table style="margin-top: 2rem">
             <tbody>
                 <tr>
                     <td> Mahasiswa </td>
@@ -223,10 +223,16 @@
                 </tr>
                 <tr></tr>
                 <tr>
-                    <td> {{ $thesis->student_name }} </td>
+                    <td style="white-space: nowrap"> {{ $thesis->student_name }} </td>
                     <td> </td>
                     <td style="white-space: nowrap; padding-left: 1rem"> {{ $thesis->advisor_1_name }} </td>
                     <td style="white-space: nowrap; padding-left: 1rem"> {{ $thesis->advisor_2_name }} </td>
+                </tr>
+                <tr>
+                    <td style="white-space: nowrap"> NIM: {{ $thesis->student_id }} </td>
+                    <td> </td>
+                    <td style="white-space: nowrap; padding-left: 1rem"> NIK: {{ $thesis->advisor_1_id }} </td>
+                    <td style="white-space: nowrap; padding-left: 1rem"> NIK: {{ $thesis->advisor_2_id }} </td>
                 </tr>
             </tbody>
         </table>

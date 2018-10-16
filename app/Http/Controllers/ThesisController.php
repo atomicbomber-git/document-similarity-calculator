@@ -39,7 +39,9 @@ class ThesisController extends Controller
             'student_id' => ['nullable', 'string'],
             'study_program' => ['nullable', 'string'],
             'seminar_date' => ['nullable', 'date'],
+            'advisor_1_id' => ['nullable', 'string'],
             'advisor_1_name' => ['nullable', 'string'],
+            'advisor_2_id' => ['nullable', 'string'],
             'advisor_2_name' => ['nullable', 'string']
         ]);
 
@@ -67,7 +69,9 @@ class ThesisController extends Controller
             'student_id' => ['nullable', 'string'],
             'study_program' => ['nullable', 'string'],
             'seminar_date' => ['nullable', 'string'],
+            'advisor_1_id' => ['nullable', 'string'],
             'advisor_1_name' => ['nullable', 'string'],
+            'advisor_2_id' => ['nullable', 'string'],
             'advisor_2_name' => ['nullable', 'string']
         ]);
 
