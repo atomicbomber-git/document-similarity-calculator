@@ -31,14 +31,14 @@ class ThesisController extends Controller
     {
         $data = $this->validate(request(), [
             'title' => ['required', 'string'],
-            'abstract' => ['nullable', 'string'],
-            'chapter_1' => ['nullable', 'string'],
-            'chapter_2' => ['nullable', 'string'],
-            'chapter_5' => ['nullable', 'string'],
+            'abstract' => ['required', 'string'],
+            'chapter_1' => ['required', 'string'],
+            'chapter_2' => ['required', 'string'],
+            'chapter_5' => ['required', 'string'],
             'student_name' => ['nullable', 'string'],
             'student_id' => ['nullable', 'string'],
             'study_program' => ['nullable', 'string'],
-            'seminar_date' => ['nullable', 'string'],
+            'seminar_date' => ['nullable', 'date'],
             'advisor_1_name' => ['nullable', 'string'],
             'advisor_2_name' => ['nullable', 'string']
         ]);
@@ -59,10 +59,10 @@ class ThesisController extends Controller
     {
         $data = $this->validate(request(), [
             'title' => ['required', 'string'],
-            'abstract' => ['nullable', 'string'],
-            'chapter_1' => ['nullable', 'string'],
-            'chapter_2' => ['nullable', 'string'],
-            'chapter_5' => ['nullable', 'string'],
+            'abstract' => ['required', 'string'],
+            'chapter_1' => ['required', 'string'],
+            'chapter_2' => ['required', 'string'],
+            'chapter_5' => ['required', 'string'],
             'student_name' => ['nullable', 'string'],
             'student_id' => ['nullable', 'string'],
             'study_program' => ['nullable', 'string'],
