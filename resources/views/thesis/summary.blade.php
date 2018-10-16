@@ -9,7 +9,7 @@
     <style>@page { size: A4 }</style>
     <style>
         body {
-            font-size: 8pt;
+            font-size: 7pt;
         }
 
         table.bordered {
@@ -26,8 +26,8 @@
             margin-bottom: 0.3rem;
         }
 
-        h2 {
-            font-size: 10pt;
+        h1, h2 {
+            font-size: 9pt;
         }
 
     </style>
