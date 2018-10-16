@@ -98,7 +98,29 @@ class ThesisController extends Controller
             ];
         });
 
+        $three_largest_averages = $similarities
+            ->sortByDesc('average')
+            ->take(3);
+
+        $largest_abstract_s = $similarities->sortByDesc('abstract')->shift();
+        $largest_chapter_1_s = $similarities->sortByDesc('chapter_1')->shift();
+        $largest_chapter_2_s = $similarities->sortByDesc('chapter_2')->shift();
+        $largest_chapter_5_s = $similarities->sortByDesc('chapter_5')->shift();
+
         $other_theses = $other_theses->keyBy('id');
-        return view('thesis.similarity', compact('thesis', 'similarities', 'other_theses'));
+
+        return view(
+            'thesis.similarity',
+            compact(
+                'thesis',
+                'similarities',
+                'other_theses',
+                'three_largest_averages',
+                'largest_abstract_s',
+                'largest_chapter_1_s',
+                'largest_chapter_2_s',
+                'largest_chapter_5_s'
+            )
+        );
     }
 }
