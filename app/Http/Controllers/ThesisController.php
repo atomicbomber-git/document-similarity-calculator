@@ -84,14 +84,9 @@ class ThesisController extends Controller
             ->with('message.success', 'Data berhasil dihapus.');
     }
 
-    public function compare(Thesis $thesis)
+    private function getSimilarities(Thesis $thesis, $other_theses)
     {
-        $other_theses = Thesis::query()
-            ->select('id', 'title', 'abstract', 'chapter_1', 'chapter_2', 'chapter_5')
-            ->where('id', '<>', $thesis->id)
-            ->get();
-
-        $similarities = $other_theses->map(function($other_thesis) use($thesis) {
+        return $other_theses->map(function($other_thesis) use($thesis) {
 
             $title_s = $this->processor->calculateSimilarity($thesis->title, $other_thesis->title);
             $abstract_s = $this->processor->calculateSimilarity($thesis->abstract, $other_thesis->abstract);
@@ -109,6 +104,16 @@ class ThesisController extends Controller
                 'average' => collect([$title_s, $abstract_s, $chapter_1_s, $chapter_2_s, $chapter_5_s])->average()
             ];
         });
+    }
+
+    public function compare(Thesis $thesis)
+    {
+        $other_theses = Thesis::query()
+            ->select('id', 'title', 'abstract', 'chapter_1', 'chapter_2', 'chapter_5')
+            ->where('id', '<>', $thesis->id)
+            ->get();
+
+        $similarities = $this->getSimilarities($thesis, $other_theses);
 
         $three_largest_averages = $similarities
             ->sortByDesc('average')
@@ -127,6 +132,38 @@ class ThesisController extends Controller
                 'thesis',
                 'similarities',
                 'other_theses',
+                'three_largest_averages',
+                'largest_abstract_s',
+                'largest_chapter_1_s',
+                'largest_chapter_2_s',
+                'largest_chapter_5_s'
+            )
+        );
+    }
+
+    public function summary(Thesis $thesis)
+    {
+        $other_theses = Thesis::query()
+            ->select('id', 'title', 'abstract', 'chapter_1', 'chapter_2', 'chapter_5')
+            ->where('id', '<>', $thesis->id)
+            ->get();
+
+        $similarities = $this->getSimilarities($thesis, $other_theses);
+
+        $three_largest_averages = $similarities
+            ->sortByDesc('average')
+            ->take(3);
+
+        $largest_abstract_s = $similarities->sortByDesc('abstract')->shift();
+        $largest_chapter_1_s = $similarities->sortByDesc('chapter_1')->shift();
+        $largest_chapter_2_s = $similarities->sortByDesc('chapter_2')->shift();
+        $largest_chapter_5_s = $similarities->sortByDesc('chapter_5')->shift();
+
+        $other_theses = $other_theses->keyBy('id');
+
+        return view(
+            'thesis.summary',
+            compact('thesis', 'other_theses',
                 'three_largest_averages',
                 'largest_abstract_s',
                 'largest_chapter_1_s',

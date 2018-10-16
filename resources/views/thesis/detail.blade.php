@@ -194,8 +194,12 @@
                     Hitung Nilai Similaritas dengan Skripsi-Skripsi Lainnya
                 </div>
                 <div class="card-body">
-                    <a href="{{ route('thesis.compare', $thesis) }}" class="btn btn-primary">
+                    <a href="{{ route('thesis.compare', $thesis) }}" class="btn mb-2 d-block btn-primary">
                         Bandingkan dengan Skripsi-Skripsi Lainnya
+                    </a>
+
+                    <a href="{{ route('thesis.summary', $thesis) }}" class="btn mb-2 d-block btn-primary">
+                        Summary Similaritas Skripsi / Tugas Akhir
                     </a>
                 </div>
             </div>

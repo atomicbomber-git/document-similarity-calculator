@@ -30,5 +30,6 @@ Route::group(['prefix' => '/thesis', 'as' => 'thesis.'], function() {
     Route::post('/update/{thesis}', 'ThesisController@update')->name('update');
     Route::post('/store', 'ThesisController@store')->name('store');
     Route::get('/compare/{thesis}', 'ThesisController@compare')->name('compare');
+    Route::get('/summary/{thesis}', 'ThesisController@summary')->name('summary');
     Route::post('/delete/{thesis}', 'ThesisController@delete')->name('delete');
 });
