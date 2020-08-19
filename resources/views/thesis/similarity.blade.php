@@ -17,7 +17,7 @@
     <div class="card mb-4">
         <div class="card-header">
             <i class="fa fa-list"></i>
-            Hasil Perbandingan dengan Nilai Rata-Rata Similaritas Tertinggi
+            Hasil Perbandingan dengan Nilai Total Similaritas Tertinggi
         </div>
         <div class="card-body">
             <table class="table table-sm">
@@ -30,11 +30,11 @@
                         <th> N. Similaritas Bab 1 </th>
                         <th> N. Similaritas Bab 2 </th>
                         <th> N. Similaritas Bab 5 </th>
-                        <th> Rata-Rata N. Similaritas </th>
+                        <th> Total N. Similaritas </th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($three_largest_averages as $similarity)
+                    @foreach ($three_largest_totals as $similarity)
                     <tr>
                         <td> {{ $loop->iteration }}. </td>
                         <td>
@@ -57,8 +57,8 @@
                         <td class="{{ $similarity['chapter_5'] >= 40 ? 'table-danger' : '' }}">
                             {{ $similarity['chapter_5'] }}%
                         </td>
-                        <td class="{{ $similarity['average'] >= 40 ? 'table-danger' : '' }}">
-                            {{ $similarity['average'] }}%
+                        <td class="{{ $similarity['total'] >= 40 ? 'table-danger' : '' }}">
+                            {{ $similarity['total'] }}%
                         </td>
                     </tr>
                     @endforeach
@@ -83,7 +83,7 @@
                         <th> N. Similaritas Bab 1 </th>
                         <th> N. Similaritas Bab 2 </th>
                         <th> N. Similaritas Bab 5 </th>
-                        <th> Rata-Rata N. Similaritas </th>
+                        <th> Total N. Similaritas </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -109,8 +109,8 @@
                         <td class="{{ $largest_abstract_s['chapter_5'] >= 40 ? 'table-danger' : '' }}">
                             {{ $largest_abstract_s['chapter_5'] }}%
                         </td>
-                        <td class="{{ $largest_abstract_s['average'] >= 40 ? 'table-danger' : '' }}">
-                            {{ $largest_abstract_s['average'] }}%
+                        <td class="{{ $largest_abstract_s['total'] >= 40 ? 'table-danger' : '' }}">
+                            {{ $largest_abstract_s['total'] }}%
                         </td>
                     </tr>
 
@@ -136,8 +136,8 @@
                         <td class="{{ $largest_chapter_1_s['chapter_5'] >= 40 ? 'table-danger' : '' }}">
                             {{ $largest_chapter_1_s['chapter_5'] }}%
                         </td>
-                        <td class="{{ $largest_chapter_1_s['average'] >= 40 ? 'table-danger' : '' }}">
-                            {{ $largest_chapter_1_s['average'] }}%
+                        <td class="{{ $largest_chapter_1_s['total'] >= 40 ? 'table-danger' : '' }}">
+                            {{ $largest_chapter_1_s['total'] }}%
                         </td>
                     </tr>
 
@@ -163,8 +163,8 @@
                         <td class="{{ $largest_chapter_2_s['chapter_5'] >= 40 ? 'table-danger' : '' }}">
                             {{ $largest_chapter_2_s['chapter_5'] }}%
                         </td>
-                        <td class="{{ $largest_chapter_2_s['average'] >= 40 ? 'table-danger' : '' }}">
-                            {{ $largest_chapter_2_s['average'] }}%
+                        <td class="{{ $largest_chapter_2_s['total'] >= 40 ? 'table-danger' : '' }}">
+                            {{ $largest_chapter_2_s['total'] }}%
                         </td>
                     </tr>
 
@@ -190,8 +190,8 @@
                         <td class="{{ $largest_chapter_5_s['chapter_5'] >= 40 ? 'table-danger' : '' }}">
                             {{ $largest_chapter_5_s['chapter_5'] }}%
                         </td>
-                        <td class="{{ $largest_chapter_5_s['average'] >= 40 ? 'table-danger' : '' }}">
-                            {{ $largest_chapter_5_s['average'] }}%
+                        <td class="{{ $largest_chapter_5_s['total'] >= 40 ? 'table-danger' : '' }}">
+                            {{ $largest_chapter_5_s['total'] }}%
                         </td>
                     </tr>
                 </tbody>
@@ -215,7 +215,7 @@
                         <th> N. Similaritas Bab 1 </th>
                         <th> N. Similaritas Bab 2 </th>
                         <th> N. Similaritas Bab 5 </th>
-                        <th> Rata-Rata N. Similaritas </th>
+                        <th> Total N. Similaritas </th>
                     </tr>
                 </thead>
 
@@ -243,8 +243,8 @@
                         <td class="{{ $similarity['chapter_5'] >= 40 ? 'table-danger' : '' }}">
                             {{ $similarity['chapter_5'] }}%
                         </td>
-                        <td class="{{ $similarity['average'] >= 40 ? 'table-danger' : '' }}">
-                            {{ $similarity['average'] }}%
+                        <td class="{{ $similarity['total'] >= 40 ? 'table-danger' : '' }}">
+                            {{ $similarity['total'] }}%
                         </td>
                     </tr>
                     @endforeach

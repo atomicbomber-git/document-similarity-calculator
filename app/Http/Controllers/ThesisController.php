@@ -103,6 +103,11 @@ class ThesisController extends Controller
             $chapter_2_s = $this->processor->calculateSimilarity($thesis->chapter_2, $other_thesis->chapter_2);
             $chapter_5_s = $this->processor->calculateSimilarity($thesis->chapter_5, $other_thesis->chapter_5);
 
+            $total_s = $this->processor->calculateSimilarity(
+                join(" ", [$thesis->title, $thesis->abstract, $thesis->chapter_1, $thesis->chapter_2, $thesis->chapter_5]),
+                join(" ", [$other_thesis->title, $other_thesis->abstract, $other_thesis->chapter_1, $other_thesis->chapter_2, $other_thesis->chapter_5])
+            );
+
             return [
                 'id' => $other_thesis->id,
                 'title' => $title_s,
@@ -110,7 +115,7 @@ class ThesisController extends Controller
                 'chapter_1' => $chapter_1_s,
                 'chapter_2' => $chapter_2_s,
                 'chapter_5' => $chapter_5_s,
-                'average' => collect([$title_s, $abstract_s, $chapter_1_s, $chapter_2_s, $chapter_5_s])->average()
+                'total' => $total_s,
             ];
         });
     }
@@ -124,8 +129,8 @@ class ThesisController extends Controller
 
         $similarities = $this->getSimilarities($thesis, $other_theses);
 
-        $three_largest_averages = $similarities
-            ->sortByDesc('average')
+        $three_largest_totals = $similarities
+            ->sortByDesc('total')
             ->take(3);
 
         $largest_abstract_s = $similarities->sortByDesc('abstract')->shift();
@@ -141,7 +146,7 @@ class ThesisController extends Controller
                 'thesis',
                 'similarities',
                 'other_theses',
-                'three_largest_averages',
+                'three_largest_totals',
                 'largest_abstract_s',
                 'largest_chapter_1_s',
                 'largest_chapter_2_s',
@@ -159,9 +164,9 @@ class ThesisController extends Controller
 
         $similarities = $this->getSimilarities($thesis, $other_theses);
 
-        $three_largest_averages = $similarities
-            ->sortByDesc('average')
-            ->take(3);
+        $three_largest_totals = $similarities
+            ->sortByDesc('total')
+            ->take(5);
 
         $largest_abstract_s = $similarities->sortByDesc('abstract')->shift();
         $largest_chapter_1_s = $similarities->sortByDesc('chapter_1')->shift();
@@ -173,7 +178,7 @@ class ThesisController extends Controller
         return view(
             'thesis.summary',
             compact('thesis', 'other_theses',
-                'three_largest_averages',
+                'three_largest_totals',
                 'largest_abstract_s',
                 'largest_chapter_1_s',
                 'largest_chapter_2_s',

@@ -76,7 +76,7 @@
             </tbody>
         </table>
 
-        <h2> Skripsi dengan Nilai Rata-Rata Similaritas Tertinggi </h2>
+        <h2> Skripsi dengan Nilai Total Similaritas Tertinggi </h2>
 
         <table class="bordered" style="text-align: center">
             <thead>
@@ -87,11 +87,11 @@
                     <th> Nilai Similaritas Bab I </th>
                     <th> Nilai Similaritas Bab II </th>
                     <th> Nilai Similaritas Bab V </th>
-                    <th> Rata-Rata Nilai Similaritas </th>
+                    <th> Total Nilai Similaritas </th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($three_largest_averages as $similarity)
+                @foreach ($three_largest_totals as $similarity)
                 <tr>
                     <td> {{ $other_theses->get($similarity['id'])->title }} </td>
                     <td> {{ $similarity['title'] }}% </td>
@@ -99,7 +99,7 @@
                     <td> {{ $similarity['chapter_1'] }}% </td>
                     <td> {{ $similarity['chapter_2'] }}% </td>
                     <td> {{ $similarity['chapter_5'] }}% </td>
-                    <td> {{ $similarity['average'] }}% </td>
+                    <td> {{ $similarity['total'] }}% </td>
                 </tr>
                 @endforeach
             </tbody>
@@ -116,7 +116,7 @@
                     <th> Nilai Similaritas Bab I </th>
                     <th> Nilai Similaritas Bab II </th>
                     <th> Nilai Similaritas Bab V </th>
-                    <th> Rata-Rata Nilai Similaritas </th>
+                    <th> Total Nilai Similaritas </th>
                 </tr>
             </thead>
             <tbody>
@@ -127,7 +127,7 @@
                     <td> {{ $largest_abstract_s['chapter_1'] }}% </td>
                     <td> {{ $largest_abstract_s['chapter_2'] }}% </td>
                     <td> {{ $largest_abstract_s['chapter_5'] }}% </td>
-                    <td> {{ $largest_abstract_s['average'] }}% </td>
+                    <td> {{ $largest_abstract_s['total'] }}% </td>
                 </tr>
             </tbody>
         </table>
@@ -143,7 +143,7 @@
                     <th> Nilai Similaritas Bab I </th>
                     <th> Nilai Similaritas Bab II </th>
                     <th> Nilai Similaritas Bab V </th>
-                    <th> Rata-Rata Nilai Similaritas </th>
+                    <th> Total Nilai Similaritas </th>
                 </tr>
             </thead>
             <tbody>
@@ -154,7 +154,7 @@
                     <td> {{ $largest_chapter_1_s['chapter_1'] }}% </td>
                     <td> {{ $largest_chapter_1_s['chapter_2'] }}% </td>
                     <td> {{ $largest_chapter_1_s['chapter_5'] }}% </td>
-                    <td> {{ $largest_chapter_1_s['average'] }}% </td>
+                    <td> {{ $largest_chapter_1_s['total'] }}% </td>
                 </tr>
             </tbody>
         </table>
@@ -170,7 +170,7 @@
                     <th> Nilai Similaritas Bab I </th>
                     <th> Nilai Similaritas Bab II </th>
                     <th> Nilai Similaritas Bab V </th>
-                    <th> Rata-Rata Nilai Similaritas </th>
+                    <th> Total Nilai Similaritas </th>
                 </tr>
             </thead>
             <tbody>
@@ -181,7 +181,7 @@
                     <td> {{ $largest_chapter_2_s['chapter_1'] }}% </td>
                     <td> {{ $largest_chapter_2_s['chapter_2'] }}% </td>
                     <td> {{ $largest_chapter_2_s['chapter_5'] }}% </td>
-                    <td> {{ $largest_chapter_2_s['average'] }}% </td>
+                    <td> {{ $largest_chapter_2_s['total'] }}% </td>
                 </tr>
             </tbody>
         </table>
@@ -197,7 +197,7 @@
                     <th> Nilai Similaritas Bab I </th>
                     <th> Nilai Similaritas Bab II </th>
                     <th> Nilai Similaritas Bab V </th>
-                    <th> Rata-Rata Nilai Similaritas </th>
+                    <th> Total Nilai Similaritas </th>
                 </tr>
             </thead>
             <tbody>
@@ -208,7 +208,7 @@
                     <td> {{ $largest_chapter_5_s['chapter_1'] }}% </td>
                     <td> {{ $largest_chapter_5_s['chapter_2'] }}% </td>
                     <td> {{ $largest_chapter_5_s['chapter_5'] }}% </td>
-                    <td> {{ $largest_chapter_5_s['average'] }}% </td>
+                    <td> {{ $largest_chapter_5_s['total'] }}% </td>
                 </tr>
             </tbody>
         </table>
@@ -231,8 +231,8 @@
                 <tr>
                     <td style="white-space: nowrap"> NIM: {{ $thesis->student_id }} </td>
                     <td> </td>
-                    <td style="white-space: nowrap; padding-left: 1rem"> NIK: {{ $thesis->advisor_1_id }} </td>
-                    <td style="white-space: nowrap; padding-left: 1rem"> NIK: {{ $thesis->advisor_2_id }} </td>
+                    <td style="white-space: nowrap; padding-left: 1rem"> NIP: {{ $thesis->advisor_1_id }} </td>
+                    <td style="white-space: nowrap; padding-left: 1rem"> NIP: {{ $thesis->advisor_2_id }} </td>
                 </tr>
             </tbody>
         </table>
