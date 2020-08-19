@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Thesis::class, function (Faker $faker) {
+$factory->define(App\Skripsi::class, function (Faker $faker) {
     return [
         'title' => ucwords($faker->sentence(10, TRUE)),
         'abstract' => $faker->realText(500),

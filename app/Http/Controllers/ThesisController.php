@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Thesis;
+use App\Skripsi;
 use App\Processor;
 
 class ThesisController extends Controller
@@ -20,7 +20,7 @@ class ThesisController extends Controller
 
     public function index()
     {
-        $theses = Thesis::select('id', 'title')
+        $theses = Skripsi::select('id', 'title')
             ->orderBy('created_at', 'DESC')
             ->paginate(7);
 
@@ -50,19 +50,19 @@ class ThesisController extends Controller
             'advisor_2_name' => ['nullable', 'string']
         ]);
 
-        Thesis::create($data);
+        Skripsi::create($data);
 
         return redirect()
             ->route('thesis.index')
             ->with('message.success', 'Data berhasil ditambahkan.');
     }
 
-    public function detail(Thesis $thesis)
+    public function detail(Skripsi $thesis)
     {
         return view('thesis.detail', compact('thesis'));
     }
 
-    public function update(Thesis $thesis)
+    public function update(Skripsi $thesis)
     {
         $data = $this->validate(request(), [
             'title' => ['required', 'string'],
@@ -86,14 +86,14 @@ class ThesisController extends Controller
             ->with('message.success', 'Data berhasil diperbarui.');
     }
 
-    public function delete(Thesis $thesis)
+    public function delete(Skripsi $thesis)
     {
         $thesis->delete();
         return back()
             ->with('message.success', 'Data berhasil dihapus.');
     }
 
-    private function getSimilarities(Thesis $thesis, $other_theses)
+    private function getSimilarities(Skripsi $thesis, $other_theses)
     {
         return $other_theses->map(function($other_thesis) use($thesis) {
 
@@ -120,9 +120,9 @@ class ThesisController extends Controller
         });
     }
 
-    public function compare(Thesis $thesis)
+    public function compare(Skripsi $thesis)
     {
-        $other_theses = Thesis::query()
+        $other_theses = Skripsi::query()
             ->select('id', 'title', 'abstract', 'chapter_1', 'chapter_2', 'chapter_5')
             ->where('id', '<>', $thesis->id)
             ->get();
@@ -155,9 +155,9 @@ class ThesisController extends Controller
         );
     }
 
-    public function summary(Thesis $thesis)
+    public function summary(Skripsi $thesis)
     {
-        $other_theses = Thesis::query()
+        $other_theses = Skripsi::query()
             ->select('id', 'title', 'abstract', 'chapter_1', 'chapter_2', 'chapter_5')
             ->where('id', '<>', $thesis->id)
             ->get();

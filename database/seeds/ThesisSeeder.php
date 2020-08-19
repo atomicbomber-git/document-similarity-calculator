@@ -11,6 +11,6 @@ class ThesisSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Thesis::class, 25)->create();
+        factory(App\Skripsi::class, 25)->create();
     }
 }
