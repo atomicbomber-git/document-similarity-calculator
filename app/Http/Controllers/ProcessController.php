@@ -7,8 +7,13 @@ use App\Processor;
 
 class ProcessController extends Controller
 {
-    public function __construct() {
-        $this->processor = new Processor;
+    /**
+     * @var Processor
+     */
+    private $processor;
+
+    public function __construct(Processor $processor) {
+        $this->processor = $processor;
     }
 
     public function stem() {

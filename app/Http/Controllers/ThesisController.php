@@ -8,9 +8,14 @@ use App\Processor;
 
 class ThesisController extends Controller
 {
-    public function __construct()
+    /**
+     * @var Processor
+     */
+    private $processor;
+
+    public function __construct(Processor $processor)
     {
-        $this->processor = new Processor;
+        $this->processor = $processor;
     }
 
     public function index()
