@@ -13,6 +13,10 @@ class ProcessController extends Controller
     private $processor;
 
     public function __construct(Processor $processor) {
+        $this->middleware([
+            "auth",
+        ]);
+
         $this->processor = $processor;
     }
 

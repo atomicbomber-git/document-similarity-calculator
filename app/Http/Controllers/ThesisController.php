@@ -16,6 +16,9 @@ class ThesisController extends Controller
     public function __construct(Processor $processor)
     {
         $this->processor = $processor;
+        $this->middleware([
+            "auth",
+        ]);
     }
 
     public function index()
