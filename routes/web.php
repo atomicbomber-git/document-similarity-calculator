@@ -37,4 +37,4 @@ Route::group(['prefix' => '/thesis', 'as' => 'thesis.'], function () {
     Route::post('/delete/{thesis}', [ThesisController::class, 'delete'])->name('delete');
 });
 
-Auth::routes();
+\Illuminate\Support\Facades\Auth::routes();
